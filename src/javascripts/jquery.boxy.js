@@ -124,6 +124,7 @@ jQuery.extend(Boxy, {
         modal:                  false,          // make dialog modal?
         fixed:                  true,           // use fixed positioning, if supported? absolute positioning used otherwise
         closeText:              '[close]',      // text to use for default close link
+        modalOpacity:           0.6,            // opacity of scrim
         beforeLoadContent:      null,           // placeholder content to show while load is loading
         unloadOnHide:           false,          // should this dialog be removed from the DOM after being hidden?
         clickToFront:           false,          // bring dialog to foreground on any click (not just titlebar)?
@@ -139,7 +140,6 @@ jQuery.extend(Boxy, {
     IE6:                (jQuery.browser.msie && jQuery.browser.version < 7),
     DEFAULT_X:          50,
     DEFAULT_Y:          50,
-    MODAL_OPACITY:      0.7,
     zIndex:             1337,
     dragConfigured:     false, // only set up one drag handler for all boxys
     resizeConfigured:   false,
@@ -470,7 +470,7 @@ Boxy.prototype = {
             Boxy._setupModalResizing();
             this.modalBlackout = jQuery('<div class="boxy-modal-blackout"></div>')
                 .css(jQuery.extend(Boxy._cssForOverlay(), {
-                    zIndex: Boxy._nextZ(), opacity: Boxy.MODAL_OPACITY
+                    zIndex: Boxy._nextZ(), opacity: this.options.modalOpacity
                 })).appendTo(document.body);
             this.toTop();
             if (this.options.closeable) {
