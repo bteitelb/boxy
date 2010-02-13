@@ -124,6 +124,7 @@ jQuery.extend(Boxy, {
         modal:                  false,          // make dialog modal?
         fixed:                  true,           // use fixed positioning, if supported? absolute positioning used otherwise
         closeText:              '[close]',      // text to use for default close link
+        beforeLoadContent:      null,           // placeholder content to show while load is loading
         unloadOnHide:           false,          // should this dialog be removed from the DOM after being hidden?
         clickToFront:           false,          // bring dialog to foreground on any click (not just titlebar)?
         behaviours:             Boxy.EF,        // function used to apply behaviours to all content embedded in dialog.
@@ -153,12 +154,18 @@ jQuery.extend(Boxy, {
     load: function(url, options) {
         
         options = options || {};
-        
+        if (options.beforeLoadContent) {
+          new Boxy('<div id="boxy_placeholder">' + options.beforeLoadContent + '</div>', options);          
+        }
         var ajax = {
             url: url, type: 'GET', dataType: 'html', cache: false, success: function(html) {
                 html = jQuery(html);
                 if (options.filter) html = jQuery(options.filter, html);
-                new Boxy(html, options);
+                if (options.beforeLoadContent) {
+                  Boxy.get('#boxy_placeholder').setContent(html).center('x')._fire('afterShow');
+                } else {
+                  new Boxy(html, options); 
+                }                
             }
         };
         
