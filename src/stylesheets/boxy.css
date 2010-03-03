@@ -1,4 +1,4 @@
-.boxy-wrapper { position: absolute; }
+.boxy-wrapper { position: absolute; min-height: 1px;}
 .boxy-wrapper.fixed { position: fixed; }
 
   /* Modal */
